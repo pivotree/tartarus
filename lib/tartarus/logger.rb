@@ -21,6 +21,7 @@ module Tartarus::Logger
 
     def normalize_request_data(request)
       enviroment = request.env.dup
+      parameters = respond_to?(:filter_parameters) ? filter_parameters(request.parameters) : request.parameters.dup
 
       request_details = {
         :enviroment => { :process => $$, :server => `hostname -s`.chomp },
@@ -29,7 +30,7 @@ module Tartarus::Logger
           :method => request.method.to_s.upcase,
           :url => "#{request.protocol}#{request.env["HTTP_HOST"]}#{request.request_uri}",
           :format => request.format.to_s,
-          :parameters => request.parameters
+          :parameters => parameters
         }
       }
 
