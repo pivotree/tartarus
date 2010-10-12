@@ -15,6 +15,36 @@ describe Tartarus::Rescue do
     end
   end
 
+  describe 'when normalizing request data for tartarus' do
+    before( :each ) do 
+      @controller.stub( :request ).and_return( fake_controller_request )
+    end
+
+    it 'should have the session hash' do 
+      params = @controller.normalize_request_data_for_tartarus
+      params[:session].should_not be_blank
+      params[:session].should be_an_instance_of(Hash)
+      params[:session].should == { :cookie => {}, :variables => { :id=>"123123" } }
+    end
+ 
+    it 'should have a enviroment hash that contains a hash of only the uppercase keys of the original controller request hash' do
+      params = @controller.normalize_request_data_for_tartarus
+      params[:enviroment].should_not be_blank
+      params[:enviroment].should == { "http_host" => "test_host", "loooooooong_key_two" => "key_two_value", "key_one" => "key_one_value", :server => `hostname -s`.chomp, :process => $$ }
+    end
+  
+    it 'should have a http details hash' do
+      params = @controller.normalize_request_data_for_tartarus
+      params[:http_details].should_not be_blank
+      params[:http_details].should == { :parameters => "params", :format => "html", :method => "POST", :url => "http://test_host/my/uri" }
+    end
+
+    it "should return a hash of request data" do
+      params = @controller.normalize_request_data_for_tartarus
+      params.should be_an_instance_of(Hash)
+    end
+  end
+
   describe "#rescue_action_with_tartarus" do
     before(:each) do
       @exception = StandardError.new

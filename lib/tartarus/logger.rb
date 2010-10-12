@@ -14,31 +14,10 @@ module Tartarus::Logger
         logged_exception.action_name = controller.action_name
         logged_exception.message = exception.message
         logged_exception.backtrace = exception.backtrace * "\n"
-        logged_exception.request = normalize_request_data(controller.request)
+        logged_exception.request = controller.normalize_request_data_for_tartarus
         logged_exception.group_id = Digest::SHA1.hexdigest(group_id)
       end
     end
 
-    def normalize_request_data(request)
-      enviroment = request.env.dup
-      parameters = respond_to?(:filter_parameters) ? filter_parameters(request.parameters) : request.parameters.dup
-
-      request_details = {
-        :enviroment => { :process => $$, :server => `hostname -s`.chomp },
-        :session => { :variables => enviroment['rack.session'].to_hash, :cookie => enviroment['rack.request.cookie_hash'] },
-        :http_details => { 
-          :method => request.method.to_s.upcase,
-          :url => "#{request.protocol}#{request.env["HTTP_HOST"]}#{request.request_uri}",
-          :format => request.format.to_s,
-          :parameters => parameters
-        }
-      }
-
-      enviroment.each_pair do |key, value|
-        request_details[:enviroment][key.downcase] = value if key.match(/^[A-Z_]*$/)
-      end
-
-      return request_details
-    end
   end
 end

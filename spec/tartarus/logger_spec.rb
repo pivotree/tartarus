@@ -8,7 +8,7 @@ describe Tartarus::Logger do
   describe "#log" do
     before(:each) do
       LoggedException.stub!(:normalize_request_data).and_return({})
-      @controller = mock('controller', :controller_path => 'home', :action_name => 'index', :request => fake_controller_request)
+      @controller = mock('controller', :controller_path => 'home', :normalize_request_data_for_tartarus => 'params', :action_name => 'index', :request => fake_controller_request)
       @exception = StandardError.new('An error has occured!')
       @exception.stub!(:backtrace).and_return(['one', 'two', 'three'])
     end
@@ -25,7 +25,7 @@ describe Tartarus::Logger do
     end
 
     it "should normalize the controller request data" do
-      LoggedException.should_receive(:normalize_request_data).with(@controller.request)
+      @controller.should_receive(:normalize_request_data_for_tartarus)
       @logged_exception = LoggedException.log(@controller, @exception)
     end
 
@@ -33,32 +33,5 @@ describe Tartarus::Logger do
       @logged_exception = LoggedException.log(@controller, @exception)
       @logged_exception.should be_an_instance_of(LoggedException)
     end
-  end
-
-  describe "#normalize_request_data" do
-    before(:each) do
-       @request_data = LoggedException.normalize_request_data(fake_controller_request)
-    end
-    
-    it 'should have a enviroment hash that contains a hash of only the uppercase keys of the original controller request hash' do
-      @request_data[:enviroment].should_not be_blank
-      @request_data[:enviroment].should == { "http_host" => "test_host", "loooooooong_key_two" => "key_two_value", "key_one" => "key_one_value", :server => `hostname -s`.chomp, :process => $$ }
-    end
-
-    it 'should have a session hash' do
-      @request_data[:session].should_not be_blank
-      @request_data[:session].should be_an_instance_of(Hash)
-      @request_data[:session].should == { :cookie => {}, :variables => { :id=>"123123" } }
-    end
-
-    it 'should have a http details hash' do
-      @request_data[:http_details].should_not be_blank
-      @request_data[:http_details].should == { :parameters => "params", :format => "html", :method => "POST", :url => "http://test_host/my/uri" }
-    end
-
-    it "should return a hash of request data" do
-      @request_data.should be_an_instance_of(Hash)
-    end
-     
   end
 end
