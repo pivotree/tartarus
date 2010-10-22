@@ -2,7 +2,7 @@
   <td>
     <strong><%= link_to "#{exception.exception_class}", :action => 'details', :id => exception.group_id %></strong>
     <br />
-    <span><%= truncate(exception.message, :length => 115) %></span>
+    <span><%= truncate(h(exception.message), :length => 115) %></span>
   </td>
 
   <td>
