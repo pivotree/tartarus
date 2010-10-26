@@ -17,8 +17,8 @@ dependencies are used:
 === Installation
 
 1. Install the gem from:
-     [sudo] gem install tartarus --source=http://gemcutter.org
-2. Add the exceptional gem dependency to your enviroment.rb:
+    gem install tartarus
+2. Add the tartarus gem dependency to your enviroment.rb:
      config.gem "tartarus"
 3. Run the generator from the root of your Rails application:
      script/generate tartarus
