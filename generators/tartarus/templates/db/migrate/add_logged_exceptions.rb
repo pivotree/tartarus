@@ -10,6 +10,7 @@ class Add<%= class_name %>Table < ActiveRecord::Migration
       t.text     :request
       t.datetime :created_at
     end
+    add_index :<%= plural_name %>, :group_id
   end
 
   def self.down

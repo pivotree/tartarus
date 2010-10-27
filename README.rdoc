@@ -28,6 +28,15 @@ dependencies are used:
      <script type="text/javascript" src="/javascripts/tartarus.jquery.js"></script>
      <link href="/stylesheets/tartarus.css" media="all" rel="stylesheet" type="text/css" />
 
+=== Configuration
+
+Configuration is handled by config/exceptions.yml, which will be generated for you. You typically
+will not need to change anything in here, however you can use this to set an email address to 
+have exception notifications delivered to, and a threshold. The threshold indicates how frequently 
+to send the notification, and is handled per-exception grouping (you will be notified every time the 
+threshold is reached, so with the default of 10 you will be notified at 10,20,30,etc.). In addition,
+when an email is set, a notification will always be sent everytime a new type of exception is raised.
+
 === License
 
 Copyright (c) 2009 Daniel Insley
