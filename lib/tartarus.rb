@@ -23,3 +23,4 @@ end
 
 require 'tartarus/logger'
 require 'tartarus/rescue'
+require 'tartarus/notifier'

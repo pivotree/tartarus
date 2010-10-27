@@ -34,4 +34,44 @@ describe Tartarus::Logger do
       @logged_exception.should be_an_instance_of(LoggedException)
     end
   end
+  
+  it 'should return the group count' do 
+    e = LoggedException.create( :group_id => "hash" )
+    LoggedException.should_receive( :count ).with( :conditions => ["group_id = ?", 'hash'] ).and_return( 42 )
+    e.group_count.should == 42
+  end
+  
+  describe '#handle_notifications' do 
+    before(:each) do 
+      @e = LoggedException.create
+      Tartarus.configuration['notification_threshold'] = 10
+      Tartarus.configuration['notification_address'] = 'test@example.com'
+    end
+    
+    it 'should return and not deliver notification if there is no address present' do 
+      Tartarus::Notifier.should_receive( :deliver_notification ).never
+      Tartarus.configuration['notification_address'] = nil
+
+      @e.handle_notifications
+    end
+
+    it 'should send email if there is an address present and the count matches the threshold' do 
+      Tartarus::Notifier.should_receive( :deliver_notification ).with( 'test@example.com', @e )
+      @e.stub( :group_count ).and_return( 20 )
+      @e.handle_notifications
+    end
+    
+    it 'should send email if there is an address present and it is the first exception in a group' do 
+      Tartarus::Notifier.should_receive( :deliver_notification ).with( 'test@example.com', @e )
+      @e.stub( :group_count ).and_return( 1 )
+      @e.handle_notifications
+    end
+    
+    it 'should not send email if there is an address present and the count does not match the threshold' do 
+      Tartarus::Notifier.should_receive( :deliver_notification ).never
+      @e.stub( :group_count ).and_return( 22 )
+      @e.handle_notifications
+    end
+  end
+
 end
