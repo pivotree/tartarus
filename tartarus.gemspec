@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Daniel Insley"]
-  s.date = %q{2010-10-26}
+  s.date = %q{2010-10-27}
   s.description = %q{Provides exception logging and a generator for creating a clean interface to manage exceptions.}
   s.email = %q{dinsley@gmail.com}
   s.extra_rdoc_files = [
@@ -36,8 +36,8 @@ Gem::Specification.new do |s|
      "generators/tartarus/templates/spec/models/logged_exception_spec.rb",
      "lib/tartarus.rb",
      "lib/tartarus/logger.rb",
-     "lib/tartarus/rescue.rb",
      "lib/tartarus/notifier.rb",
+     "lib/tartarus/rescue.rb",
      "rails/init.rb",
      "spec/rails/app/controllers/application_controller.rb",
      "spec/rails/app/models/logged_exception.rb",
@@ -61,7 +61,9 @@ Gem::Specification.new do |s|
      "spec/spec_helper.rb",
      "spec/tartarus/logger_spec.rb",
      "spec/tartarus/rescue_spec.rb",
-     "spec/tartarus_spec.rb"
+     "spec/tartarus_spec.rb",
+     "tartarus.gemspec",
+     "views/tartarus_notifier/notification.html.erb"
   ]
   s.homepage = %q{http://github.com/dinsley/tartarus}
   s.rdoc_options = ["--charset=UTF-8"]
