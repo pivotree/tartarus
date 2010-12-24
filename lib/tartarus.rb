@@ -2,6 +2,8 @@ require 'yaml'
 require 'will_paginate'
 
 class Tartarus
+  module Notifiers; end
+
   class << self
     def configuration
       @cached_config ||= YAML.load_file("#{Rails.root}/config/exceptions.yml")[Rails.env]
@@ -23,4 +25,4 @@ end
 
 require 'tartarus/logger'
 require 'tartarus/rescue'
-require 'tartarus/notifier'
+require 'tartarus/notifiers/mail'

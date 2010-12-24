@@ -6,7 +6,7 @@ module Tartarus::Logger
   def handle_notifications
     notification_address =  Tartarus.configuration['notification_address']
     return unless notification_address.present? 
-    Tartarus::Notifier.deliver_notification( notification_address, self ) if group_count == 1 or (group_count%Tartarus.configuration['notification_threshold']).zero?
+    Tartarus::Notifiers::Mail.deliver_notification( notification_address, self ) if group_count == 1 or (group_count%Tartarus.configuration['notification_threshold']).zero?
   end
 
   def self.included(base)

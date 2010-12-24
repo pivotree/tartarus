@@ -43,34 +43,34 @@ describe Tartarus::Logger do
   
   describe '#handle_notifications' do 
     before(:each) do 
-      @e = LoggedException.create
+      @logged_exception = LoggedException.create
       Tartarus.configuration['notification_threshold'] = 10
       Tartarus.configuration['notification_address'] = 'test@example.com'
     end
     
     it 'should return and not deliver notification if there is no address present' do 
-      Tartarus::Notifier.should_receive( :deliver_notification ).never
+      Tartarus::Notifiers::Mail.should_receive( :deliver_notification ).never
       Tartarus.configuration['notification_address'] = nil
 
-      @e.handle_notifications
+      @logged_exception.handle_notifications
     end
 
     it 'should send email if there is an address present and the count matches the threshold' do 
-      Tartarus::Notifier.should_receive( :deliver_notification ).with( 'test@example.com', @e )
-      @e.stub( :group_count ).and_return( 20 )
-      @e.handle_notifications
+      Tartarus::Notifiers::Mail.should_receive( :deliver_notification ).with( 'test@example.com', @logged_exception )
+      @logged_exception.stub( :group_count ).and_return( 20 )
+      @logged_exception.handle_notifications
     end
     
     it 'should send email if there is an address present and it is the first exception in a group' do 
-      Tartarus::Notifier.should_receive( :deliver_notification ).with( 'test@example.com', @e )
-      @e.stub( :group_count ).and_return( 1 )
-      @e.handle_notifications
+      Tartarus::Notifiers::Mail.should_receive( :deliver_notification ).with( 'test@example.com', @logged_exception )
+      @logged_exception.stub( :group_count ).and_return( 1 )
+      @logged_exception.handle_notifications
     end
     
     it 'should not send email if there is an address present and the count does not match the threshold' do 
-      Tartarus::Notifier.should_receive( :deliver_notification ).never
-      @e.stub( :group_count ).and_return( 22 )
-      @e.handle_notifications
+      Tartarus::Notifiers::Mail.should_receive( :deliver_notification ).never
+      @logged_exception.stub( :group_count ).and_return( 22 )
+      @logged_exception.handle_notifications
     end
   end
 
