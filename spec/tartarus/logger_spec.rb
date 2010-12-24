@@ -7,6 +7,7 @@ describe Tartarus::Logger do
 
   describe "#log" do
     before(:each) do
+      Tartarus.stub(:configuration).and_return({ 'test' => { :enabled => true, "logger_class"=>"LoggedException" } })
       LoggedException.stub!(:normalize_request_data).and_return({})
       @controller = mock('controller', :controller_path => 'home', :normalize_request_data_for_tartarus => 'params', :action_name => 'index', :request => fake_controller_request)
       @exception = StandardError.new('An error has occured!')
@@ -44,13 +45,12 @@ describe Tartarus::Logger do
   describe '#handle_notifications' do 
     before(:each) do 
       @logged_exception = LoggedException.create
-      Tartarus.configuration['notification_threshold'] = 10
-      Tartarus.configuration['notification_address'] = 'test@example.com'
+      Tartarus.stub(:configuration).and_return({ 'notification_threshold' => 10, 'notification_address' => 'test@example.com', 'enabled' => true, "logger_class"=>"LoggedException" })
     end
     
-    it 'should return and not deliver notification if there is no address present' do 
+    it 'should return and not deliver notification if there is no address present' do
+      Tartarus.should_receive(:configuration).and_return({ 'enabled' => true, "logger_class"=>"LoggedException" })
       Tartarus::Notifiers::Mail.should_receive( :deliver_notification ).never
-      Tartarus.configuration['notification_address'] = nil
 
       @logged_exception.handle_notifications
     end

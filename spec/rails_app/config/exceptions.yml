@@ -6,4 +6,4 @@ test:
   logger_class: LoggedException 
 production:
   enabled: true
-  logger_class: LoggedException 
+  logger_class: LoggedException
