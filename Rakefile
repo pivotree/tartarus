@@ -1,38 +1,20 @@
 require 'rubygems'
 require 'rake'
+require 'bundler'
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "tartarus"
-    gem.summary = %Q{Exception Logging for Rails}
-    gem.description = %Q{Provides exception logging and a generator for creating a clean interface to manage exceptions.}
-    gem.email = "dinsley@gmail.com"
-    gem.homepage = "http://github.com/dinsley/tartarus"
-    gem.authors = ["Daniel Insley"]
-    gem.add_dependency "will_paginate"
-    gem.add_development_dependency "rails"
-    gem.add_development_dependency "rspec"
-    gem.add_development_dependency "rspec-rails"
-    # Gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-  end
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
+Bundler::GemHelper.install_tasks
+
+require "rspec/core/rake_task"
+
+RSpec::Core::RakeTask.new(:spec) do |spec|
+  spec.rspec_opts = ['--color', '--format progress']
+  spec.pattern = 'spec/**/*_spec.rb'
+#  spec.rcov = true
+#  spec.rcov_opts = lambda do
+#    IO.readlines("spec/rcov.opts").map { |l| l.chomp.split " " }.flatten
+#  end
 end
 
-require 'spec/rake/spectask'
-
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.spec_opts = ['--options', "spec/spec.opts"]
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
-  spec.rcov = true
-  spec.rcov_opts = lambda do
-    IO.readlines("spec/rcov.opts").map { |l| l.chomp.split " " }.flatten
-  end
-end
-
-task :spec => :check_dependencies
 task :default => :spec
 
 require 'rake/rdoctask'

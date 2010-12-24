@@ -1,6 +1,6 @@
 class Tartarus::Notifiers::Mail < ActionMailer::Base
   self.mailer_name = 'tartarus_notifier'
-  self.view_paths << "#{File.dirname(__FILE__)}/../../../views"
+  #self.view_paths << "#{File.dirname(__FILE__)}/../../../views"
   
   def notification( to, exception )
     @recipients = to
