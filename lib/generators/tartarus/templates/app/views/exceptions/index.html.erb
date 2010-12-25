@@ -1,0 +1,28 @@
+<div id="tartarus">
+  <div id="tartarus_cap">
+    <div id="tartarus_nav">
+      <%= link_to 'Remove all', :action => :remove_all %>
+    </div>
+    <h2>Exception Overview</h2>
+    <div><%= @exceptions.length %> Exceptions</div>
+  </div>
+  
+  <table id="tartarus_overview">
+    <thead>
+      <tr>
+        <th id="exception_summary">Summary</th>
+        <th id="exception_location">Location</th>
+        <th id="exception_date">Latest</th>
+        <th id="exception_count">Count</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <% @exceptions.each do |exception| %>  
+        <%= render :partial => 'exception', :object => exception %>
+      <% end %>
+    </tbody>
+    
+  </table>
+</div>
+
