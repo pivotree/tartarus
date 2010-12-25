@@ -5,11 +5,11 @@ Usage:
     If you do not pass any arguments, the model class will default to "LoggedException".
 
 Examples:
-    script/generate tartarus
+    rails generate tartarus
 
         Creates default logged exception model, controller, and views.
 
-    script/generate tartarus MyException
+    rails generate tartarus MyException
 
         Creates a custom model, controller, and views.
 
