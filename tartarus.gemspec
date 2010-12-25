@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = %q{tartarus}
-  s.version = "1.0.3"
+  s.version = "2.0.0"
   s.platform    = Gem::Platform::RUBY 
   
   s.authors = ["Daniel Insley"]
@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/dinsley/tartarus}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Exception Logging for Rails}
 
   s.files         = `git ls-files`.split("\n")  
