@@ -6,7 +6,7 @@ class Tartarus
 
   class << self
     def configuration
-      @cached_config ||= YAML.load_file("#{Rails.root}/config/exceptions.yml")[Rails.env]
+      @cached_configuration ||= YAML.load_file("#{Rails.root}/config/exceptions.yml")[Rails.env]
     end
 
     def logger_class
@@ -26,3 +26,5 @@ end
 require 'tartarus/logger'
 require 'tartarus/rescue'
 require 'tartarus/notifiers/mail'
+require 'tartarus/railtie'
+

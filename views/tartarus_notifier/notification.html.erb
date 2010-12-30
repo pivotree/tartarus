@@ -1,9 +1,0 @@
-A new exception was raised (<%= @exception.created_at.strftime("%m/%d/%Y %I:%M%p") %>):
-
-Class    : <%= @exception.exception_class %>
-Location : <%= @exception.controller_path %>#<%= @exception.action_name %> 
-Message  : <%= @exception.message %>
-Count    : <%= @exception.group_count %>
-
-Backtrace: 
-<%= @exception.backtrace %>

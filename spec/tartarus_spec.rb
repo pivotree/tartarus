@@ -27,6 +27,7 @@ describe Tartarus do
 
   describe "#log" do
     before(:each) do
+      Tartarus.stub!(:configuration).and_return({ 'enabled' => true, :logger_class => 'LoggedException' })
       @controller = mock('controller')
       @exception = StandardError.new
       Tartarus.stub!(:logger_class).and_return(LoggedException)
@@ -45,22 +46,22 @@ describe Tartarus do
 
   describe "#configuration" do
     before(:each) do
-      YAML.stub!(:load_file).and_return({ 'development' => { 'enabled' => true }, 'test' => { 'enabled' => false } })
+      YAML.stub!(:load_file).and_return({ 'test' => { 'enabled' => true } })
     end
 
-    it 'should parse the YAML configuration file for exceptional' do
+    it 'should parse the YAML configuration file' do
       YAML.should_receive(:load_file).with("#{Rails.root}/config/exceptions.yml")
       Tartarus.configuration
     end
     
     it 'should return the configuration from the current rails enviroment' do
-      Tartarus.configuration.should == { 'enabled' => false }
+      Tartarus.configuration.should == { 'enabled' => true }
     end
     
     it 'should return a cached config if the configuration has already been loaded before' do
       Tartarus.configuration
       YAML.should_receive(:load_file).never
-      Tartarus.configuration.should == { 'enabled' => false }
+      Tartarus.configuration.should == { 'enabled' => true }
     end
   end
 end
