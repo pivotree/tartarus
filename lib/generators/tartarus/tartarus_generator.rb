@@ -6,20 +6,20 @@ class TartarusGenerator < Rails::Generators::NamedBase
 
   def generate_tartarus 
     template 'config/exceptions.yml', 'config/exceptions.yml'
-    template 'app/controllers/exceptions_controller.rb', "app/controllers/exceptions_controller.rb"
     template 'app/models/logged_exception.rb', "app/models/#{file_name}.rb"
     template 'spec/models/logged_exception_spec.rb', "spec/models/#{file_name}_spec.rb"
-    template 'spec/controllers/exceptions_controller_spec.rb', 'spec/controllers/exceptions_controller_spec.rb'
+   
+    template 'app/controllers/exceptions_controller.rb', "app/controllers/#{plural_name}_controller.rb"
+    template 'spec/controllers/exceptions_controller_spec.rb', "spec/controllers/#{plural_name}_controller_spec.rb"
 
-    migration_template "db/migrate/add_logged_exceptions.rb", "db/migrate/add_#{singular_name}_table"
+    copy_file 'app/views/exceptions/index.html.erb', "app/views/#{plural_name}/index.html.erb"
+    copy_file 'app/views/exceptions/details.html.erb', "app/views/#{plural_name}/details.html.erb"
+    copy_file 'app/views/exceptions/_exception.html.erb', "app/views/#{plural_name}/_exception.html.erb"
     
-    Dir.glob('views/exceptions/*.html.erb').each do |path| 
-      view = File.basename(path)
-      copy_file "app/views/exceptions/#{view}", "app/views/exceptions/#{view}"
-    end
-
     copy_file 'public/javascripts/tartarus.jquery.js', 'public/javascripts/tartarus.jquery.js'
     copy_file 'public/stylesheets/tartarus.css', 'public/stylesheets/tartarus.css'
+
+    migration_template "db/migrate/add_logged_exceptions.rb", "db/migrate/add_#{singular_name}_table"
   end
 
   def after_generate

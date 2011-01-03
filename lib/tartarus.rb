@@ -23,8 +23,8 @@ class Tartarus
   end
 end
 
+require 'tartarus/rack'
 require 'tartarus/logger'
-require 'tartarus/rescue'
 require 'tartarus/notifiers/mail'
 require 'tartarus/railtie'
 

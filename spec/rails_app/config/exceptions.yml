@@ -1,9 +1,18 @@
 development:
-  enabled: false
+  logging_enabled: true
   logger_class: LoggedException 
+  notification_address: 
+  notification_sender: noreply@example.com 
+  notification_threshold: 10
 test:
-  enabled: false
+  logging_enabled: false
   logger_class: LoggedException 
+  notification_address: 
+  notification_sender: noreply@example.com 
+  notification_threshold: 10
 production:
-  enabled: true
+  logging_enabled: true
   logger_class: LoggedException
+  notification_address: 
+  notification_sender: noreply@example.com 
+  notification_threshold: 10
