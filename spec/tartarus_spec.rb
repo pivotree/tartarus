@@ -1,10 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe Tartarus do
-  it 'should include rescue module into ActionController::Base if a rails enviroment is loaded' do
-    ActionController::Base.included_modules.include?(Tartarus::Rescue).should be_true
-  end
-
   describe "#logger_class" do
     it 'should return the registered loggers class from the configuration' do
       Tartarus.should_receive(:configuration).and_return({ 'logger_class' => 'LoggedException' })

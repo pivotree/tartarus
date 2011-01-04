@@ -24,10 +24,10 @@ def fake_controller_request
          'rack.request.cookie_hash' => {}
        },
        :method => 'post',
-       :parameters => 'params',
+       :filtered_parameters => 'params',
        :format => 'html',
        :protocol => 'http://',
-       :request_uri => '/my/uri')     
+       :fullpath => '/my/uri')     
 end
 
 class LoggedException < ActiveRecord::Base

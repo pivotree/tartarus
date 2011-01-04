@@ -1,17 +1,31 @@
 module Tartarus::Logger
-  def group_count
-    self.class.count( :conditions => ["group_id = ?", group_id] )
-  end
- 
-  def handle_notifications
-    notification_address =  Tartarus.configuration['notification_address']
-    return unless notification_address.present? 
-    Tartarus::Notifiers::Mail.deliver_notification( notification_address, self ) if group_count == 1 or (group_count%Tartarus.configuration['notification_threshold']).zero?
-  end
-
   def self.included(base)
     base.extend ClassMethods
-    base.serialize :request, ::Hash
+    base.send :include, InstanceMethods
+    base.send :before_save, :json_serialize  
+    base.send :after_save, :json_deserialize
+    base.send :after_find, :json_deserialize
+  end
+
+  module InstanceMethods
+    def group_count
+      self.class.count( :conditions => ["group_id = ?", group_id] )
+    end
+   
+    def handle_notifications
+      notification_address =  Tartarus.configuration['notification_address']
+      return unless notification_address.present? 
+      Tartarus::Notifiers::Mail.deliver_notification( notification_address, self ) if group_count == 1 or (group_count%Tartarus.configuration['notification_threshold']).zero?
+    end
+
+    def json_serialize    
+      self.request = self.request.to_json
+    end
+
+    def json_deserialize    
+      self.request = JSON.parse(request)
+    end
+
   end
 
   module ClassMethods
@@ -25,7 +39,6 @@ module Tartarus::Logger
         logged_exception.action_name = controller.action_name
         logged_exception.message = exception.message
         logged_exception.backtrace = exception.backtrace * "\n"
-        debugger
         logged_exception.request = self.normalize_request_data(env)
         logged_exception.group_id = Digest::SHA1.hexdigest(group_id)
       end
@@ -41,13 +54,13 @@ module Tartarus::Logger
         :session => { :variables => request.env['rack.session'].to_hash, :cookie => request.env['rack.request.cookie_hash'] },
         :http_details => { 
           :method => request.method.to_s.upcase,
-          :url => "#{request.protocol}#{env["HTTP_HOST"]}#{request.request_uri}",
+          :url => "#{request.protocol}#{request.env["HTTP_HOST"]}#{request.fullpath}",
           :format => request.format.to_s,
           :parameters => request.filtered_parameters
         }
       }
 
-      env.each_pair do |key, value|
+      request.env.each_pair do |key, value|
         request_details[:enviroment][key.downcase] = value if key.match(/^[A-Z_]*$/)
       end
 
