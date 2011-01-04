@@ -24,7 +24,7 @@ describe ExceptionsController do
       <%= class_name %>.should_receive(:paginate).with(:all, :conditions => { :group_id => '89hasd98ashdasas98dhsda' }, 
                                                      :order => 'created_at DESC', :page => '1', :per_page => 1).and_return([@exception, @exception2])
 
-      get :details, :id => '89hasd98ashdasas98dhsda', :page => 1
+      get :details, :id => '89hasd98ashdasas98dhsda', :page => '1'
       assigns[:exceptions].should == [@exception, @exception2]
     end
 

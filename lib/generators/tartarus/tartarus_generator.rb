@@ -25,7 +25,8 @@ class TartarusGenerator < Rails::Generators::NamedBase
   def after_generate
     puts "\nIn order for exceptional to function properly, you'll need to complete the following steps to complete the installation process: \n\n"
     puts "  1) Run 'rake db:migrate' to generate the logging table for your model.\n"
-    puts "  2) Add '/javascripts/tartarus.jquery.js', and 'stylesheets/tartarus.css' to your applications layout.\n"
+    puts "  2) Add \"config.middleware.use 'Tartarus::Rack'\" to the enviroments that you'd like logging."
+    puts "  3) Add '/javascripts/tartarus.jquery.js', and 'stylesheets/tartarus.css' to your applications layout.\n"
   end
 
   def self.next_migration_number(path)
