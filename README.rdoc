@@ -12,6 +12,7 @@ If you wish to use the generator to build the exception viewing/manging interfac
 dependencies are used:
 
 * will_paginate
+* json
 * jquery
 
 === Installation
@@ -42,7 +43,9 @@ dependencies are used:
 1. Run the migration that was generated:
      rake db:migrate
 
-2. Add the javascript and stylesheet includes in your layout:
+2. Add "config.middleware.use 'Tartarus::Rack' to the enviroments that you'd like logging in.
+
+3. Add the javascript and stylesheet includes in your layout:
      <script type="text/javascript" src="/javascripts/tartarus.jquery.js"></script>
      <link href="/stylesheets/tartarus.css" media="all" rel="stylesheet" type="text/css" />
 
@@ -54,6 +57,11 @@ have exception notifications delivered to, and a threshold. The threshold indica
 to send the notification, and is handled per-exception grouping (you will be notified every time the 
 threshold is reached, so with the default of 10 you will be notified at 10,20,30,etc.). In addition,
 when an email is set, a notification will always be sent everytime a new type of exception is raised.
+
+==== TODO
+
+  * Campfire notifications
+  * Move configuration from the YAML file into the middleware initializer.
 
 === License
 

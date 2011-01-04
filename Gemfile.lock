@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     tartarus (2.0.0)
-      json
+      json (~> 1.4.6)
       will_paginate (~> 3.0.pre2)
 
 GEM
@@ -94,7 +94,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  json
+  json (~> 1.4.6)
   rails (~> 3.0.0)
   rcov (~> 0.9.9)
   rspec (~> 2.3.0)
