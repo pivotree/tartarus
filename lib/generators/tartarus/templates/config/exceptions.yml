@@ -4,15 +4,14 @@ development:
   notification_address: 
   notification_sender: noreply@example.com 
   notification_threshold: 10
+  notification_prefix: (dev) 
 test:
   logging_enabled: false
   logger_class: <%= class_name %> 
-  notification_address: 
-  notification_sender: noreply@example.com 
-  notification_threshold: 10
 production:
   logging_enabled: true
   logger_class: <%= class_name %>
   notification_address: 
   notification_sender: noreply@example.com 
   notification_threshold: 10
+  notification_prefix: (production) 
