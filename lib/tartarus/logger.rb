@@ -2,9 +2,7 @@ module Tartarus::Logger
   def self.included(base)
     base.extend ClassMethods
     base.send :include, InstanceMethods
-    base.send :before_save, :json_serialize  
-    base.send :after_save, :json_deserialize
-    base.send :after_find, :json_deserialize
+    base.send :serialize, :request
   end
 
   module InstanceMethods
@@ -16,14 +14,6 @@ module Tartarus::Logger
       notification_address =  Tartarus.configuration['notification_address']
       return unless notification_address.present? 
       Tartarus::Notifiers::Mail.notification( notification_address, self ).deliver if group_count == 1 or (group_count%Tartarus.configuration['notification_threshold']).zero?
-    end
-
-    def json_serialize    
-      self.request = self.request.to_json
-    end
-
-    def json_deserialize    
-      self.request = JSON.parse(request)
     end
 
   end

@@ -1,7 +1,7 @@
 PATH
   remote: ../../
   specs:
-    tartarus (2.0.0)
+    tartarus (2.0.3)
       json (~> 1.4.6)
       will_paginate (~> 3.0.pre2)
 
