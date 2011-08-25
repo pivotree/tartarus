@@ -1,6 +1,8 @@
+require './lib/tartarus/version'
+
 Gem::Specification.new do |s|
   s.name = %q{tartarus}
-  s.version = "2.0.3"
+  s.version = Tartarus::VERSION
   s.platform    = Gem::Platform::RUBY 
   
   s.authors = ["Daniel Insley"]
