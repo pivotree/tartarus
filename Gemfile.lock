@@ -3,6 +3,7 @@ PATH
   specs:
     tartarus (2.0.3)
       json (~> 1.4.6)
+      rails (~> 3.0.0)
       will_paginate (~> 3.0.pre2)
 
 GEM
@@ -88,7 +89,7 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.23)
-    will_paginate (3.0.pre2)
+    will_paginate (3.0.0)
 
 PLATFORMS
   ruby
