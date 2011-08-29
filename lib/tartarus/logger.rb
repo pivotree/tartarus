@@ -11,9 +11,10 @@ module Tartarus::Logger
     end
    
     def handle_notifications
-      notification_address =  Tartarus.configuration['notification_address']
-      return unless notification_address.present? 
-      Tartarus::Notifiers::Mail.notification( notification_address, self ).deliver if group_count == 1 or (group_count%Tartarus.configuration['notification_threshold']).zero?
+      return if Tartarus.configuration['notifiers'].nil?
+      Tartarus.configuration['notifiers'].each do |klass, notifier|
+        "Tartarus::Notifiers::#{klass.camelize}".constantize.notify( notifier, self ) if group_count == 1 or (group_count % (notifier['threshold'] || 10)).zero?
+      end
     end
 
   end

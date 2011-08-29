@@ -58,6 +58,21 @@ to send the notification, and is handled per-exception grouping (you will be not
 threshold is reached, so with the default of 10 you will be notified at 10,20,30,etc.). In addition,
 when an email is set, a notification will always be sent everytime a new type of exception is raised.
 
+==== Custom Notifications
+
+You can write your own custom notifications, please use lib/tartarus/notifiers/mail.rb as an example.
+You simply need to write your own class "class Tartarus::Notifiers::MyNotifier" which has a
+"notify" class method which takes two arguments, "config" a hash of config options and
+"exception" which is the exception itself.
+
+Then add something like this to the exceptions.yml:
+
+  notifiers:
+    my_notifier:
+      some_option: some value here
+
+You will receive a hash with {"some_option" => "some value here"} in the "config" arg.
+
 ==== TODO
 
   * Campfire notifications

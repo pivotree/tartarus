@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Tartarus::Logger do
   describe "#log" do
     before(:each) do
-      Tartarus.stub(:configuration).and_return({ 'test' => { :enabled => true, "logger_class"=>"LoggedException" } })
+      Tartarus.stub(:configuration).and_return({ 'test' => { "logging_enabled" => true, "logger_class"=>"LoggedException" } })
       LoggedException.stub!(:normalize_request_data).and_return({})
       @controller = { 'action_controller.instance' => mock('controller', :controller_path => 'home', :action_name => 'index', :request => fake_controller_request) }
       @exception = StandardError.new('An error has occured!')
@@ -42,32 +42,30 @@ describe Tartarus::Logger do
     before(:each) do
       @notification = stub('notification', :deliver => true)
       @logged_exception = LoggedException.create(:request => {})
-      Tartarus.stub(:configuration).and_return({ 'notification_threshold' => 10, 'notification_address' => 'test@example.com', 'enabled' => true, "logger_class"=>"LoggedException" })
+      Tartarus.stub(:configuration).and_return({ 'notifiers' => {'mail' => {'address' => 'test@example.com', 'threshold' => 10}}, 'enabled' => true, "logger_class"=>"LoggedException" })
     end
     
     it 'should return and not deliver notification if there is no address present' do
-      Tartarus.should_receive(:configuration).and_return({ 'enabled' => true, "logger_class"=>"LoggedException" })
-      Tartarus::Notifiers::Mail.should_receive( :notification ).never
+      Tartarus.should_receive(:configuration).and_return({ 'logging_enabled' => true, "logger_class"=>"LoggedException" })
+      Tartarus::Notifiers::Mail.should_receive( :notify ).never
 
       @logged_exception.handle_notifications
     end
 
-    it 'should send email if there is an address present and the count matches the threshold' do 
-      Tartarus::Notifiers::Mail.should_receive( :notification ).with( 'test@example.com', @logged_exception ).and_return(@notification)
-      @notification.should_receive(:deliver)
+    it 'should send email if there is an address present and the count matches the threshold' do
+      Tartarus::Notifiers::Mail.should_receive( :notify ).with( Tartarus.configuration['notifiers']['mail'], @logged_exception ).and_return(@notify)
       @logged_exception.stub( :group_count ).and_return( 20 )
       @logged_exception.handle_notifications
     end
     
     it 'should send email if there is an address present and it is the first exception in a group' do 
-      Tartarus::Notifiers::Mail.should_receive( :notification ).with( 'test@example.com', @logged_exception ).and_return(@notification)
-      @notification.should_receive(:deliver)
+      Tartarus::Notifiers::Mail.should_receive( :notify ).with( Tartarus.configuration['notifiers']['mail'], @logged_exception )
       @logged_exception.stub( :group_count ).and_return( 1 )
       @logged_exception.handle_notifications
     end
     
     it 'should not send email if there is an address present and the count does not match the threshold' do 
-      Tartarus::Notifiers::Mail.should_receive( :notification ).never
+      Tartarus::Notifiers::Mail.should_receive( :notify ).never
       @logged_exception.stub( :group_count ).and_return( 22 )
       @logged_exception.handle_notifications
     end
@@ -77,7 +75,7 @@ describe Tartarus::Logger do
     before(:each) do
       @mock_env = { 'action_controller.instance' => stub('controller_instance', :request => fake_controller_request) }
       @logged_exception = LoggedException.create(:request => {})
-      Tartarus.stub(:configuration).and_return({ 'notification_threshold' => 10, 'notification_address' => 'test@example.com', 'enabled' => true, "logger_class"=>"LoggedException" })
+      Tartarus.stub(:configuration).and_return({ 'mail' => {'threshold' => 10, 'address' => 'test@example.com'}, 'enabled' => true, "logger_class"=>"LoggedException" })
     end
 
     it 'should have the session hash' do 
