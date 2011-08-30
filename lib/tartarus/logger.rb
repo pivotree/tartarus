@@ -42,7 +42,7 @@ module Tartarus::Logger
  
       request_details = {
         :enviroment => { :process => $$, :server => `hostname -s`.chomp },
-        :session => { :variables => request.env['rack.session'].to_hash, :cookie => request.env['rack.request.cookie_hash'] },
+        :session => { :variables => request.env['rack.session'].to_hash.except("flash"), :cookie => request.env['rack.request.cookie_hash'] },
         :http_details => { 
           :method => request.method.to_s.upcase,
           :url => "#{request.protocol}#{request.env["HTTP_HOST"]}#{request.fullpath}",
