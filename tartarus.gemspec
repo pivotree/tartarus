@@ -1,6 +1,8 @@
+require './lib/tartarus/version'
+
 Gem::Specification.new do |s|
   s.name = %q{tartarus}
-  s.version = "2.0.3"
+  s.version = Tartarus::VERSION
   s.platform    = Gem::Platform::RUBY 
   
   s.authors = ["Daniel Insley"]
@@ -17,6 +19,7 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")  
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }  
   
+  s.add_runtime_dependency(%q<rails>, ["~> 3.0.0"])
   s.add_runtime_dependency(%q<will_paginate>, ["~> 3.0.pre2"])
   s.add_runtime_dependency(%q<json>, ["~> 1.4.6"])
 end
