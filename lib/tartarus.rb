@@ -18,7 +18,7 @@ class Tartarus
     end
 
     def log(controller, exception)
-      logger_class.log(controller, exception)
+      logger_class.log(controller, exception) if logging_enabled?
     end
   end
 end
