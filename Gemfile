@@ -9,5 +9,6 @@ gem "appraisal"
 
 gem 'rspec', '~> 2.9.0'
 gem "rspec-rails"
-gem 'rcov'
+gem 'simplecov'
+gem 'simplecov-rcov'
 gem "sqlite3", :platform => [:ruby, :mswin, :mingw]
