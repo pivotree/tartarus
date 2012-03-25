@@ -1,3 +1,23 @@
+if ENV['SIMPLECOV']
+  require 'simplecov'
+  if ENV['RCOV']
+    require 'simplecov-rcov'
+
+    class SimpleCov::Formatter::MergedFormatter
+      def format(result)
+        SimpleCov::Formatter::HTMLFormatter.new.format(result)
+        SimpleCov::Formatter::RcovFormatter.new.format(result)
+      end
+    end
+    SimpleCov.formatter = SimpleCov::Formatter::MergedFormatter
+  end
+  SimpleCov.start do
+    add_filter '/spec/rails_app/config/'
+    add_filter '.*_spec.rb'
+    add_filter '.*/spec_helper.rb'
+  end
+end
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path(File.dirname(__FILE__) + "/rails_app/config/environment", __FILE__)
