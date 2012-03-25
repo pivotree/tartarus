@@ -23,7 +23,7 @@ describe Tartarus do
 
   describe "#log" do
     before(:each) do
-      Tartarus.stub!(:configuration).and_return({ 'enabled' => true, :logger_class => 'LoggedException' })
+      Tartarus.stub!(:configuration).and_return({ 'logging_enabled' => true, :logger_class => 'LoggedException' })
       @controller = mock('controller')
       @exception = StandardError.new
       Tartarus.stub!(:logger_class).and_return(LoggedException)
