@@ -1,0 +1,22 @@
+before_install:
+  - gem install bundler
+before_script:
+  - cd spec/rails_app; bundle exec rake db:create db:schema:load; cd ../..
+env:
+  - RAILS_ENV=test
+rvm:
+  - 1.8.7
+  - 1.9.2
+  - 1.9.3
+gemfile:
+  - gemfiles/rails3-0.gemfile
+  - gemfiles/rails3-1.gemfile
+  - gemfiles/rails3-2.gemfile
+script:
+  - bundle exec rake spec
+notifications:
+  email:
+    recipients:
+      - brian@tecnobrat.com
+    on_success: change
+    on_failure: always

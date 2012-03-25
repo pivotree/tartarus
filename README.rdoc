@@ -78,6 +78,10 @@ You will receive a hash with {"some_option" => "some value here"} in the "config
   * Campfire notifications
   * Move configuration from the YAML file into the middleware initializer.
 
+=== Build Status
+
+{<img src="https://secure.travis-ci.org/tecnobrat/tartarus.png?branch=master" alt="Build Status" />}[http://travis-ci.org/tecnobrat/tartarus]
+
 === License
 
 Copyright (c) 2009 Daniel Insley
