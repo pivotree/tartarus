@@ -15,9 +15,9 @@
 #tartarus th#exception_date { width: 150px; }
 #tartarus th#exception_count { text-align: center; }
 
-#tartarus pre { -webkit-border-radius: 5px; -moz-border-radius: 5px; font-size: 10px; color: #fff; background-color: #222; padding: 10px; font-family: Consolas, Monaco, 'Courier New', Courier,monospace; }
-#tartarus a, #tartarus a:visited { text-decoration: underline; #bdf; } 
-#tartarus a:hover { #09f }
+#tartarus pre { -webkit-border-radius: 5px; -moz-border-radius: 5px; font-size: 13px; color: #fff; background-color: #222; padding: 10px; font-family: Consolas, Monaco, 'Courier New', Courier,monospace; }
+#tartarus a, #tartarus a:visited { text-decoration: underline; } 
+#tartarus a:hover { color: #09f }
 
 #tartarus #exception { clear: both; }
 #tartarus #exception_actions { float: right; }
