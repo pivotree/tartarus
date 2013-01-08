@@ -24,5 +24,5 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency(%q<rails>, [">= 3.0.0"])
   s.add_runtime_dependency(%q<will_paginate>, ["~> 3.0.0"])
-  s.add_runtime_dependency(%q<json>, ["~> 1.6.0"])
+  s.add_runtime_dependency(%q<json>, ["~> 1.4"])
 end
